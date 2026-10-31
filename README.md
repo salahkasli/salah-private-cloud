@@ -29,6 +29,10 @@ This project is also a practical learning portfolio covering Linux administratio
 - [Infrastructure architecture](docs/architecture.md)
 - [Hardware inventory](docs/hardware-inventory.md)
 - [Storage design and backup status](docs/storage-design.md)
+- [Proxmox VE](docs/proxmox.md)
+- [Ubuntu Server](docs/ubuntu-server.md)
+- [Docker and Immich](docs/docker-immich.md)
+- [Backup and recovery](docs/backup-and-recovery.md)
 
 More documentation will be added as each part is configured and tested.
 
