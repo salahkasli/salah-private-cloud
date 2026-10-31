@@ -12,8 +12,8 @@ This project is also a practical learning portfolio covering Linux administratio
 - **Containers:** Docker Engine and Docker Compose
 - **Photo Management:** Immich
 - **Remote Access:** Tailscale
-- **Storage:** Separate mounted volumes for application data and database backups
-- **Automation:** Scheduled database backups using systemd
+- **Storage:** Separate mounted volumes for Immich data and local backups
+- **Automation:** Daily database backup and media synchronization using systemd
 
 ## Project Objectives
 
@@ -42,7 +42,7 @@ More documentation will be added as each part is configured and tested.
 
 ## Project Status
 
-**In progress.** The virtualization platform, Ubuntu Server VM, Immich deployment, storage mounts, remote connectivity, and scheduled database backup have been configured. Further testing and documentation are ongoing.
+**In progress.** Proxmox, the Ubuntu Server VM, Immich, storage mounts, and Tailscale are configured. A daily systemd job creates database backups and synchronizes the Immich library to the second internal HDD. Archive integrity checks have passed; database restore testing and off-site backup are still pending.
 
 ## Security
 
