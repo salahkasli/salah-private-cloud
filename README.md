@@ -33,6 +33,7 @@ This project is also a practical learning portfolio covering Linux administratio
 - [Ubuntu Server](docs/ubuntu-server.md)
 - [Docker and Immich](docs/docker-immich.md)
 - [Backup and recovery](docs/backup-and-recovery.md)
+- [Networking and remote access](docs/networking-and-remote-access.md)
 
 More documentation will be added as each part is configured and tested.
 
