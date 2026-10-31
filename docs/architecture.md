@@ -75,7 +75,7 @@ The database backup destination is separate from the Immich data volume, but bot
 
 ### Remote access
 
-Tailscale is configured for private remote connectivity. Mobile photo synchronization is still being investigated and should not yet be considered fully validated.
+Tailscale is configured for private remote connectivity. Immich photo synchronization works when the VPN is disconnected. A separate connectivity issue occurs when the iPhone is connected through the VPN.
 
 ### Backup automation
 
@@ -90,7 +90,7 @@ A systemd timer is enabled to run a scheduled Immich database backup each day. T
 | Docker Compose stack | Deployed; services reported healthy |
 | Immich web application | Deployed |
 | Separate data and backup volumes | Mounted |
-| Tailscale remote connectivity | Configured; mobile sync troubleshooting ongoing |
+| Immich photo synchronization | Working without VPN; issue occurs when VPN is connected |
 | Scheduled database backup | Enabled |
 | Backup archive integrity | Gzip integrity checked |
 | Database restore procedure | Not yet tested |
@@ -102,7 +102,7 @@ A systemd timer is enabled to run a scheduled Immich database backup each day. T
 - A second disk in the same machine is not an off-site backup and does not by itself provide disaster recovery.
 - The database backup process needs a documented restore test.
 - The backup strategy for the actual Immich photo and video library needs to be implemented and tested separately.
-- Remote access and iPhone background synchronization need further troubleshooting and validation.
+- Investigate why the iPhone cannot synchronize with Immich while connected through the VPN.
 
 ## 7. Security and documentation policy
 
