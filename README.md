@@ -38,11 +38,9 @@ This project is also a practical learning portfolio covering Linux administratio
 - [Security basics](docs/security.md)
 - [Operational scripts](scripts/README.md)
 
-More documentation will be added as each part is configured and tested.
-
 ## Project Status
 
-**In progress.** Proxmox, the Ubuntu Server VM, Immich, storage mounts, and Tailscale are configured. A daily systemd job creates database backups and synchronizes the Immich library to the second internal HDD. Archive integrity checks have passed; database restore testing and off-site backup are still pending.
+**In progress.** Proxmox, the Ubuntu Server VM, Immich, storage mounts, and Tailscale are configured. Daily database backups and media synchronization to a second internal HDD are running. A media file was restored and verified with matching SHA-256 hashes. A PostgreSQL backup was restored into an isolated test container; 72 tables and 8,636 asset records were readable. Full application-level recovery and off-site backup are still pending.
 
 ## Security
 
