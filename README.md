@@ -36,6 +36,7 @@ This project is also a practical learning portfolio covering Linux administratio
 - [Networking and remote access](docs/networking-and-remote-access.md)
 - [Troubleshooting](docs/troubleshooting.md)
 - [Security basics](docs/security.md)
+- [Operational scripts](scripts/README.md)
 
 More documentation will be added as each part is configured and tested.
 
