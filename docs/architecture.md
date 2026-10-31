@@ -32,7 +32,7 @@ flowchart TB
     REDIS["Redis"]
     DATA["Immich data volume<br/>2 TB-class HDD"]
     BACKUP["Backup volume<br/>1 TB-class HDD"]
-    TIMER["systemd backup timer<br/>Daily database backup"]
+    TIMER["systemd backup timer<br/>Daily database and media backup"]
 
     DEV --> TS
     TS --> VM
@@ -44,11 +44,12 @@ flowchart TB
     DOCKER --> DB
     DOCKER --> REDIS
     IMMICH --> DATA
+    DATA --> TIMER
     DB --> TIMER
     TIMER --> BACKUP
 ```
 
-The diagram shows the intended logical relationships. It does not imply that every path or feature has completed end-to-end validation.
+The diagram shows the logical relationships. It does not imply that every path or feature has completed end-to-end validation.
 
 ## 4. Platform components
 
@@ -64,14 +65,14 @@ Ubuntu Server hosts the application environment, Docker Engine, persistent stora
 
 Immich is deployed using Docker Compose. Its stack includes the Immich application, machine-learning service, PostgreSQL database, and Redis.
 
-### Storage
+### Storage and backups
 
 Two separate hard drives are presented to the Ubuntu Server VM and mounted for different purposes:
 
 - **Immich data volume:** stores the Immich library.
-- **Backup volume:** stores database backup files.
+- **Backup volume:** stores PostgreSQL dumps and a synchronized copy of the Immich media library.
 
-The database backup destination is separate from the Immich data volume, but both disks are installed in the same physical computer.
+Both disks are installed in the same physical computer, so this is local backup storage rather than off-site disaster protection.
 
 ### Remote access
 
@@ -79,7 +80,7 @@ Tailscale is configured for private remote connectivity. Immich photo synchroniz
 
 ### Backup automation
 
-A systemd timer is enabled to run a scheduled Immich database backup each day. The backup archive has been checked for gzip integrity. A full restore test has not yet been documented.
+A daily systemd timer runs the backup script. A selected original video has been restored from the media copy and verified using matching SHA-256 hashes. The October 31, 2026 PostgreSQL dump has also been restored into an isolated test container, where 72 tables and 8,636 asset records were readable.
 
 ## 5. Current validation status
 
@@ -92,16 +93,17 @@ A systemd timer is enabled to run a scheduled Immich database backup each day. T
 | Separate data and backup volumes | Mounted |
 | Immich photo synchronization | Working without VPN; issue occurs when VPN is connected |
 | Scheduled database backup | Enabled |
-| Backup archive integrity | Gzip integrity checked |
-| Database restore procedure | Not yet tested |
+| Media synchronization | Verified with rsync dry run |
+| Selected media recovery | SHA-256 hashes matched |
+| PostgreSQL restore | Restored and queried in isolated test container |
+| Full Immich application recovery | Not yet tested |
 | Off-site backup | Not yet implemented |
 
 ## 6. Known limitations and next improvements
 
 - Both hard drives are inside the same physical host. Hardware failure, theft, or a major incident could affect both.
-- A second disk in the same machine is not an off-site backup and does not by itself provide disaster recovery.
-- The database backup process needs a documented restore test.
-- The backup strategy for the actual Immich photo and video library needs to be implemented and tested separately.
+- A second disk in the same machine is not an off-site backup.
+- The database and media have been tested separately, but full Immich application recovery has not been tested.
 - Investigate why the iPhone cannot synchronize with Immich while connected through the VPN.
 
 ## 7. Security and documentation policy
