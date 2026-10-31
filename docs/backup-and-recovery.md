@@ -14,7 +14,7 @@ A private cloud must protect both its application data and its database. A backu
 
 - A full database restore test has not yet been completed.
 - The complete Immich photo and video library still needs a separate, tested backup plan.
-- There is no off-site copy documented yet.
+- An off-site backup is planned, but has not been configured yet.
 
 ## Important limitation
 
@@ -26,7 +26,7 @@ The data disk and backup disk are both inside the same physical computer. This p
 2. Follow the official Immich restore procedure in a safe test environment.
 3. Verify that Immich starts and the expected data is available.
 4. Create and test a separate backup of the photo and video library.
-5. Keep another copy on a different device or in a secure off-site location.
+5. Set up another copy on a different device or in a secure off-site location. This is a pending improvement.
 
 Do not test recovery by overwriting the only working Immich installation. Use a separate test environment and preserve the original data.
 
