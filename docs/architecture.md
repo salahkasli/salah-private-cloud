@@ -1,0 +1,111 @@
+# Infrastructure Architecture
+
+## 1. Project overview
+
+This homelab provides a self-hosted platform for managing personal photos and videos. It is also a practical environment for learning virtualization, Linux administration, containerization, storage, networking, and backup operations.
+
+## 2. Physical infrastructure
+
+| Component | Current configuration |
+|---|---|
+| Hardware | Lenovo ThinkCentre M720s SFF |
+| Processor | Intel Core i5, 9th generation |
+| Memory | 16 GB RAM |
+| System disk | 256 GB SSD |
+| Additional storage | 1 TB HDD and 2 TB HDD |
+
+The physical machine runs Proxmox VE as its hypervisor.
+
+## 3. Logical architecture
+
+```mermaid
+flowchart TB
+    DEV["Personal devices<br/>Phone / Laptop"]
+    TS["Tailscale<br/>Private remote connectivity"]
+    HOST["Lenovo ThinkCentre M720s<br/>Physical host"]
+    PVE["Proxmox VE<br/>Hypervisor"]
+    VM["Ubuntu Server VM"]
+    DOCKER["Docker Engine<br/>Docker Compose"]
+    IMMICH["Immich application"]
+    ML["Machine Learning service"]
+    DB["PostgreSQL database"]
+    REDIS["Redis"]
+    DATA["Immich data volume<br/>2 TB-class HDD"]
+    BACKUP["Backup volume<br/>1 TB-class HDD"]
+    TIMER["systemd backup timer<br/>Daily database backup"]
+
+    DEV --> TS
+    TS --> VM
+    HOST --> PVE
+    PVE --> VM
+    VM --> DOCKER
+    DOCKER --> IMMICH
+    DOCKER --> ML
+    DOCKER --> DB
+    DOCKER --> REDIS
+    IMMICH --> DATA
+    DB --> TIMER
+    TIMER --> BACKUP
+```
+
+The diagram shows the intended logical relationships. It does not imply that every path or feature has completed end-to-end validation.
+
+## 4. Platform components
+
+### Proxmox VE
+
+Proxmox VE is installed on the physical ThinkCentre and provides the virtualization layer. The Ubuntu Server environment runs as a virtual machine.
+
+### Ubuntu Server
+
+Ubuntu Server hosts the application environment, Docker Engine, persistent storage mount points, and scheduled backup task.
+
+### Docker and Immich
+
+Immich is deployed using Docker Compose. Its stack includes the Immich application, machine-learning service, PostgreSQL database, and Redis.
+
+### Storage
+
+Two separate hard drives are presented to the Ubuntu Server VM and mounted for different purposes:
+
+- **Immich data volume:** stores the Immich library.
+- **Backup volume:** stores database backup files.
+
+The database backup destination is separate from the Immich data volume, but both disks are installed in the same physical computer.
+
+### Remote access
+
+Tailscale is configured for private remote connectivity. Mobile photo synchronization is still being investigated and should not yet be considered fully validated.
+
+### Backup automation
+
+A systemd timer is enabled to run a scheduled Immich database backup each day. The backup archive has been checked for gzip integrity. A full restore test has not yet been documented.
+
+## 5. Current validation status
+
+| Area | Status |
+|---|---|
+| Proxmox VE host | Installed and accessible |
+| Ubuntu Server VM | Installed and running |
+| Docker Compose stack | Deployed; services reported healthy |
+| Immich web application | Deployed |
+| Separate data and backup volumes | Mounted |
+| Tailscale remote connectivity | Configured; mobile sync troubleshooting ongoing |
+| Scheduled database backup | Enabled |
+| Backup archive integrity | Gzip integrity checked |
+| Database restore procedure | Not yet tested |
+| Off-site backup | Not yet implemented |
+
+## 6. Known limitations and next improvements
+
+- Both hard drives are inside the same physical host. Hardware failure, theft, or a major incident could affect both.
+- A second disk in the same machine is not an off-site backup and does not by itself provide disaster recovery.
+- The database backup process needs a documented restore test.
+- The backup strategy for the actual Immich photo and video library needs to be implemented and tested separately.
+- Remote access and iPhone background synchronization need further troubleshooting and validation.
+
+## 7. Security and documentation policy
+
+This repository must not contain passwords, API tokens, private keys, Tailscale authentication keys, personal media, database dumps, or private configuration files.
+
+Internal IP addresses, disk UUIDs, and other environment-specific identifiers are intentionally omitted from this overview.
