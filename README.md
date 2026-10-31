@@ -26,17 +26,11 @@ This project is also a practical learning portfolio covering Linux administratio
 
 ## Documentation
 
-Technical documentation will be added progressively as each component is verified.
+- [Infrastructure architecture](docs/architecture.md)
+- [Hardware inventory](docs/hardware-inventory.md)
+- [Storage design and backup status](docs/storage-design.md)
 
-Planned topics include:
-- Infrastructure architecture
-- Hardware inventory
-- Proxmox VE and Ubuntu Server configuration
-- Storage management
-- Docker and Immich deployment
-- Tailscale remote connectivity
-- Backup and recovery procedures
-- Troubleshooting and operational lessons
+More documentation will be added as each part is configured and tested.
 
 ## Project Status
 
