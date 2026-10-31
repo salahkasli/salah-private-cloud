@@ -34,6 +34,8 @@ This project is also a practical learning portfolio covering Linux administratio
 - [Docker and Immich](docs/docker-immich.md)
 - [Backup and recovery](docs/backup-and-recovery.md)
 - [Networking and remote access](docs/networking-and-remote-access.md)
+- [Troubleshooting](docs/troubleshooting.md)
+- [Security basics](docs/security.md)
 
 More documentation will be added as each part is configured and tested.
 
